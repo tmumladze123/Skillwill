@@ -17,7 +17,7 @@ import static com.codeborne.selenide.Selenide.$$;
 public class EnergoProContactTest  extends BaseClass {
 
     @Test
-    public void checkPhoneNumber()  {
+    public void checkPhoneNumberSelenium()  {
         openEnergoPro();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class = 'calls container wow fadeIn']//span")));
@@ -28,7 +28,7 @@ public class EnergoProContactTest  extends BaseClass {
         searchInput.submit();
     }
     @Test
-    public void checkEnergyStopDates()  {
+    public void checkEnergyStopDatesSelenide()  {
         openEnergoProPersonalSite();
         $(By.xpath("//*[@class='footer-info-top']")).scrollTo();
         ElementsCollection elements = $$(By.xpath("//b[text()='ახმეტა']/parent::*/parent::*/following-sibling::*/div/div"));
