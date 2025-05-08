@@ -1,41 +1,43 @@
 package energopro;
 
 import base.BaseClass;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pagestep.EnergoProHomePageSteps;
 
-import java.time.Duration;
+import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+public class EnergoProContactTest extends BaseClass {
 
-public class EnergoProContactTest  extends BaseClass {
+    private EnergoProHomePageSteps energoProHomePageSteps;
+
+    @BeforeMethod
+    public void setUp() {
+        energoProHomePageSteps = new EnergoProHomePageSteps(driver, wait);
+    }
 
     @Test
-    public void checkPhoneNumberSelenium()  {
+    public void checkPhoneNumberSelenium() {
         openEnergoPro();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class = 'calls container wow fadeIn']//span")));
-        WebElement searchInput = driver.findElement(By.xpath("//*[@placeholder='საძიებო ფრაზა']"));
-        WebElement searchButton = driver.findElement(By.xpath("//*[@class='search-form']/div"));
-        searchButton.click();
-        searchInput.sendKeys("service");
-        searchInput.submit();
-    }
-    @Test
-    public void checkEnergyStopDatesSelenide()  {
-        openEnergoProPersonalSite();
-        $(By.xpath("//*[@class='footer-info-top']")).scrollTo();
-        ElementsCollection elements = $$(By.xpath("//b[text()='ახმეტა']/parent::*/parent::*/following-sibling::*/div/div"));
-        elements.stream()
-                .map(SelenideElement::getText)
-                .forEach(System.out::println);
+        boolean isLoaded = energoProHomePageSteps.waitUntilLoad();
+        Assert.assertTrue(isLoaded, "Energo Pro page failed to load");
+        energoProHomePageSteps.searchText("service");
     }
 
-
+//    @Test
+//    public void checkEnergyStopDates() {
+//        driver.get("https://energo-pro.ge/ow/#/");
+//        WebElement footer = wait.until(ExpectedConditions.visibilityOfElementLocated(
+//            By.xpath("//*[@class='footer-info-top']")));
+//
+//        List<WebElement> elements = driver.findElements(
+//            By.xpath("//b[text()='ახმეტა']/parent::*/parent::*/following-sibling::*/div/div"));
+//        for (WebElement element : elements) {
+//            System.out.println(element.getText());
+//        }
+//    }
 }

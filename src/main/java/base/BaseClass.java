@@ -1,39 +1,55 @@
 package base;
 
-import com.codeborne.selenide.Configuration;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 
-import static com.codeborne.selenide.Selenide.open;
-import static data.Const.energoPro;
-import static data.Const.energoProPersonalLink;
+import java.time.Duration;
+
+import static base.data.Const.*;
 
 public class BaseClass {
 
-    protected WebDriver driver;
-
-    @BeforeClass
-    public void setUp() {
-//        WebDriverManager.chromedriver().setup();
-//        driver = new ChromeDriver();
-//        driver.manage().window().maximize();
-        Configuration.holdBrowserOpen = true;
-        Configuration.browserSize = "1920x1080";
+    public static WebDriver driver;
+    public static WebDriverWait wait;
+    
+    public BaseClass() {
+        // Setup ChromeDriver with appropriate options
+        WebDriverManager.chromedriver().setup();
+        
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+        options.addArguments("--disable-notifications");
+        options.addArguments("--remote-allow-origins=*");
+        
+        // Initialize the driver with options
+        driver = new ChromeDriver(options);
+        
+        // Initialize WebDriverWait with a reasonable timeout
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
-    public void openEnergoPro(){
-        driver.get(energoPro);
+    
+    public void openEnergoPro() {
+        driver.get(energoProBaseLink);
+        // Add a small delay to ensure page starts loading
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-    public void openEnergoProPersonalSite(){
-        open(energoProPersonalLink);
+    
+    public void openEnergoProPersonalSite() {
+        driver.get(energoProPersonalLink);
     }
-
+    
     @AfterClass
     public void tearDown() {
-//        if (driver != null) {
-//            driver.quit();
-//        }
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }

@@ -1,8 +1,8 @@
-package data;
+package base.data;
 
 public class Const {
     static StringBuilder builder = new StringBuilder();
-    static public String energoProBaseLink = "https://my.energo-pro.ge";
+    static public String energoProBaseLink = "https://energo-pro.ge";
     static public String energoPro;
     static public String energoProPersonalLink;
 
